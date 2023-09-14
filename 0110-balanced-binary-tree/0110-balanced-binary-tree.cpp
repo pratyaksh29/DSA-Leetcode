@@ -18,16 +18,7 @@ public:
         } //to find the length
         int left = length(root->left); //length of left subtree
         int right = length(root->right); //length of right subtree
-
-        if(left==-1 || right==-1){ //if either of the subtree returns unbalanced then the whole tree is unbalanced.. so return -1
-          return -1;
-        }
-
-        if(abs(left-right)>1){ //if the difference between left and right is >=1 then it is unbalanced
-          return -1;
-        }
         return max(left,right)+1; //for returning the length 
-
     }
 
     bool isBalanced(TreeNode* root) {
