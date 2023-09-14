@@ -11,25 +11,18 @@
  */
 class Solution {
 public:
-    bool sametree(TreeNode* root, TreeNode* subRoot){
-        if(root == NULL || subRoot==NULL){
-            return (root==subRoot);
+    string serialize(TreeNode* node){
+        if(!node){
+            return "null";
         }
-        return root->val == subRoot->val && sametree(root->left,subRoot->left) && sametree(root->right,subRoot->right);
+        return "#" + to_string(node->val) + " " + serialize(node->left) + " " + serialize(node->right);
     }
 
-
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        if(root == NULL || subRoot==NULL){
-            return (root==subRoot);
-        }
+        string rootstr = serialize(root);
+        string subrootstr = serialize(subRoot);
 
-        if(!sametree(root,subRoot)){
-            return isSubtree(root->left,subRoot) || isSubtree(root->right,subRoot);
-        }
-        return true;
-
-
-        
+        return rootstr.find(subrootstr) != string::npos;
+    
     }
 };
