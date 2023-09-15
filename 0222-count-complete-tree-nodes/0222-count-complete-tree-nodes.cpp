@@ -12,33 +12,23 @@
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-        if(root == NULL){
-            return 0;
-        }
-        int l = leftheight(root);
-        int r = rightheight(root);
-        if(l==r){
-            return (1<<l)-1; //calculate ()height's power of 2) -1
-        }
-        return 1 + countNodes(root->left) + countNodes(root->right);
+        int count = 0;
+        inorderCount(root, count);
+        return count;
     }
 
-    int leftheight(TreeNode* root){
-        int c =0;
-        while(root){
-            root=root->left;
-            c++;
+    void inorderCount(TreeNode* node, int& count) {
+        if (node == nullptr) {
+            return;
         }
-        return c;
-    }
 
-    int rightheight(TreeNode* root){
-        int c =0;
-        while(root){
-            root=root->right;
-            c++;
-        }
-        return c;
+        // Traverse left subtree
+        inorderCount(node->left, count);
+
+        // Visit current node (increment count)
+        count++;
+
+        // Traverse right subtree
+        inorderCount(node->right, count);
     }
-    
 };
