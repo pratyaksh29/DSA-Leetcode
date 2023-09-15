@@ -12,28 +12,33 @@
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-        int c=0;
-        if(root==NULL){
-            return c;
+        if(root == NULL){
+            return 0;
         }
-        queue<TreeNode*> q;
-        q.push(root);
-        while(!q.empty()){
-            int size = q.size();
-            for(int i =0;i<size;i++){
-                TreeNode* node = q.front();
-                q.pop();
-                if(node->left){
-                    q.push(node->left);
-                }
-                if(node->right){
-                    q.push(node->right);
-                }
-                c++;
-            }
+        int l = leftheight(root);
+        int r = rightheight(root);
+        if(l==r){
+            return (1<<l)-1; //calculate ()height's power of 2) -1
+        }
+        return 1 + countNodes(root->left) + countNodes(root->right);
+    }
+
+    int leftheight(TreeNode* root){
+        int c =0;
+        while(root){
+            root=root->left;
+            c++;
         }
         return c;
-
-        
     }
+
+    int rightheight(TreeNode* root){
+        int c =0;
+        while(root){
+            root=root->right;
+            c++;
+        }
+        return c;
+    }
+    
 };
