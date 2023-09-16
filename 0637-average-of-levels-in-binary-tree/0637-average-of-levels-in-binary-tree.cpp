@@ -12,30 +12,33 @@
 class Solution {
 public:
     vector<double> averageOfLevels(TreeNode* root) {
-        vector<double>avg;
-        if(!root){
-            return {0};
-        }
-        queue<TreeNode*>q;
-        q.push(root);
+        vector<double> sum;
+        vector<int> count;
+        vector<double> averages;
 
-        while(!q.empty()){
-            int size = q.size();
-            double sum = 0.0;
-            for(int i =0; i < size ;i++){
-                TreeNode* node = q.front();
-                q.pop();
-                sum+=node->val;
-                if(node->left){
-                    q.push(node->left);
-                }
-                if(node->right){
-                    q.push(node->right);
-                } 
-            }
-            avg.push_back(sum/size);
+        dfs(root, 0, sum, count);
+
+        for (int i = 0; i < sum.size(); i++) {
+            averages.push_back(sum[i] / count[i]);
         }
-        return avg;
-        
+
+        return averages;
+    }
+
+    void dfs(TreeNode* node, int level, vector<double>& sum, vector<int>& count) {
+        if (!node) {
+            return;
+        }
+
+        if (level >= sum.size()) {
+            sum.push_back(0);
+            count.push_back(0);
+        }
+
+        sum[level] += node->val;
+        count[level]++;
+
+        dfs(node->left, level + 1, sum, count);
+        dfs(node->right, level + 1, sum, count);
     }
 };
