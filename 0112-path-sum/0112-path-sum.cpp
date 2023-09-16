@@ -15,36 +15,10 @@ public:
         if(root==NULL){
             return false;
         }
-        stack<TreeNode*>st;
-
-        st.push(root);
-        int c = 0;
-        while(st.empty()==false){
-            TreeNode* node = st.top();
-            st.pop();
-
-            if(!node->right && !node->left){
-                if(node->val==targetSum){
-                    return true;
-                }
-            }
-
-            if(node->right){
-                st.push(node->right);
-                node->right->val += node->val; //got stuck here
-            }
-
-            if(node->left){
-                st.push(node->left);
-                node->left->val += node->val; //got stuck here
-            }
-
-            
-            
+        if(!root->left && !root->right && targetSum==root->val){
+            return true;
         }
-        return false;
-
-
+        return hasPathSum(root -> right ,targetSum - root->val) || hasPathSum(root -> left ,targetSum - root->val);
+    }    
         
-    }
 };
