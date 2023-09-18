@@ -11,26 +11,27 @@
  */
 class Solution {
 public:
-    int count =0;
     int goodNodes(TreeNode* root) {
-        if(root==NULL){
+        if(!root){
             return 0;
         }
-        countgoodnodes(root,root->val);
-        return count;
-        
-    }
+        stack<pair<TreeNode*,int>>st;
+        st.push({root,root->val});
+        int goodnodes = 0;
 
-    void countgoodnodes(TreeNode* root,int max){
-        if(root==NULL){
-            return;
+        while(st.empty()==false){
+            auto [node,maxval] = st.top();
+            st.pop();
+            if(node->val>=maxval){
+                goodnodes++;
+            }
+            if(node->left){
+                st.push({node->left,max(maxval,node->val)});
+            }
+            if(node->right){
+                st.push({node->right,max(maxval,node->val)});
+            }
         }
-        if(root->val>=max){
-            count++;
-            max=root->val;
-        }
-        countgoodnodes(root->left, max);
-        countgoodnodes(root->right, max);
-
+        return goodnodes;
     }
 };
