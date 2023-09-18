@@ -11,31 +11,35 @@
  */
 class Solution {
 public:
-    int findposition (vector<int> inorder, int root){
+    void findposition (vector<int> inorder, int root,unordered_map<int,int>& nodetoindex){
         for(int i =0;i<inorder.size();i++){
-            if(root == inorder[i]){
-                return i;
-            }
+            nodetoindex[inorder[i]]=i;
         }
-        return -1;
     }
-    TreeNode* solve(vector<int>& preorder, vector<int>& inorder,int &preorderindex,int inorderstart,int inorderend){
-        if(preorder.size()<preorderindex || inorderend<inorderstart){
+    TreeNode* solve(vector<int>& preorder, vector<int>& inorder,int &preorderindex,int inorderstart,int inorderend,unordered_map<int,int>& nodetoindex){ 
+    //send preorderindex by reference as it changes every iteration
+        if(preorder.size()<preorderindex || inorderend<inorderstart){ //edge cases
             return NULL;
         }
-        int root= preorder[preorderindex++];
-        TreeNode* node = new TreeNode(root);
-        int position = findposition(inorder,root);
-        node->left = solve(preorder,inorder,preorderindex,inorderstart,position-1);
-        node->right = solve(preorder,inorder,preorderindex,position+1,inorderend);
+        int root= preorder[preorderindex++]; //the first element of the preorder index will be the root so store it and go to the next index in every recursive call
+        TreeNode* node = new TreeNode(root); //create a new node using the root
+        findposition(inorder,root,nodetoindex);
+        int position = nodetoindex[root];
+
+
+        //all elements on the left of inorder array will be node->left and all elements on right will be node->right so we will recursively call
+        node->left = solve(preorder,inorder,preorderindex,inorderstart,position-1,nodetoindex); //solving for left hand side
+        node->right = solve(preorder,inorder,preorderindex,position+1,inorderend,nodetoindex); //solving for right hand side
         return node;
 
     }
 
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int preorderindex =0;
-        TreeNode* ans = solve(preorder,inorder,preorderindex,0,preorder.size()-1);
+        int preorderindex =0; //initializing preorderindex 
+        unordered_map<int,int>nodetoindex;
+        TreeNode* ans = solve(preorder,inorder,preorderindex,0,preorder.size()-1,nodetoindex); 
         return ans;
         
     }
 };
+
