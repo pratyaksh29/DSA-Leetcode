@@ -10,30 +10,43 @@
 class Solution {
 public:
 
+    bool getpath(TreeNode* root,vector<TreeNode*>&path,TreeNode* p){
+        if(!root){
+            return false;
+        }
+        path.push_back(root);
+        if(root->val == p->val){
+            return true;
+        }
+        if(getpath(root->left,path,p)){
+            return true;
+        }
+        if(getpath(root->right,path,p)){
+            return true;
+        }
+        path.pop_back();
+        return false;
+
+    }
+
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if(!root||root==p||root==q){
-            return root;
+        if(!root){
+            return NULL;
+        }
+        vector<TreeNode*>pathp,pathq;
+
+        if (!getpath(root, pathp, p) || !getpath(root, pathq, q)) {
+            return NULL; // One or both nodes not found in the tree
         }
 
-        TreeNode* left = lowestCommonAncestor( root->left, p, q);
-        TreeNode* right = lowestCommonAncestor( root->right, p, q);
-
-        if(left==NULL){
-            return right;
+        int index;
+        int minvector = min(pathp.size(),pathq.size());
+        for(index = 0;index < minvector;index++){
+            if(pathp[index]->val!=pathq[index]->val){
+                break;
+            }
         }
-        else if(right==NULL){
-            return left;
-        }
-        else{
-            return root;
-        }
-
-
-        
-
-
-
-
+        return pathp[index-1];
         
     }
 };
