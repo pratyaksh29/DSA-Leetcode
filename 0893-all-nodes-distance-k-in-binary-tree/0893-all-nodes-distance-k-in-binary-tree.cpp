@@ -1,33 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Solution {
 public:
     vector<int> ans;
     unordered_map<TreeNode*, TreeNode*> childToParent;
-    unordered_set<TreeNode*> visited;
+
+    void buildChildToParent(TreeNode* root) {
+        if (!root) return;
+        if (root->left) {
+            childToParent[root->left] = root;
+            buildChildToParent(root->left);
+        }
+        if (root->right) {
+            childToParent[root->right] = root;
+            buildChildToParent(root->right);
+        }
+    }
 
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        // Build the child to parent mapping
+        if (!root || k < 0) return {};
+
         buildChildToParent(root);
 
         queue<TreeNode*> q;
+        unordered_set<TreeNode*> visited;
+
         q.push(target);
         visited.insert(target);
 
-        int currentLevel = 0;
-
-        while (!q.empty()) {
-            int levelSize = q.size();
-            if (currentLevel == k) {
-                while (!q.empty()) {
-                    ans.push_back(q.front()->val);
-                    q.pop();
-                }
-                return ans;
-            }
-
-            for (int i = 0; i < levelSize; ++i) {
+        while (!q.empty() && k > 0) {
+            int n = q.size();
+            for (int i = 0; i < n; i++) {
                 TreeNode* node = q.front();
                 q.pop();
-
                 if (node->left && visited.find(node->left) == visited.end()) {
                     q.push(node->left);
                     visited.insert(node->left);
@@ -36,35 +48,19 @@ public:
                     q.push(node->right);
                     visited.insert(node->right);
                 }
-                TreeNode* parent = childToParent[node];
-                if (parent && visited.find(parent) == visited.end()) {
-                    q.push(parent);
-                    visited.insert(parent);
+                if (childToParent.find(node) != childToParent.end() && visited.find(childToParent[node]) == visited.end()) {
+                    q.push(childToParent[node]);
+                    visited.insert(childToParent[node]);
                 }
             }
-            currentLevel++;
+            k--;
+        }
+
+        while (!q.empty()) {
+            ans.push_back(q.front()->val);
+            q.pop();
         }
 
         return ans;
-    }
-
-    void buildChildToParent(TreeNode* root) {
-        stack<TreeNode*> s;
-        s.push(root);
-        childToParent[root] = nullptr;
-
-        while (!s.empty()) {
-            TreeNode* node = s.top();
-            s.pop();
-
-            if (node->left) {
-                s.push(node->left);
-                childToParent[node->left] = node;
-            }
-            if (node->right) {
-                s.push(node->right);
-                childToParent[node->right] = node;
-            }
-        }
     }
 };
