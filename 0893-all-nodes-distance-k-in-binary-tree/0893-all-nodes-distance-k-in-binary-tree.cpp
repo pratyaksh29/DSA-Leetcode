@@ -48,7 +48,7 @@ public:
                     q.push(node->right);
                     visited.insert(node->right);
                 }
-                if (childToParent.find(node) != childToParent.end() && visited.find(childToParent[node]) == visited.end()) {
+                if (childToParent[node] && visited.find(childToParent[node]) == visited.end()) {
                     q.push(childToParent[node]);
                     visited.insert(childToParent[node]);
                 }
