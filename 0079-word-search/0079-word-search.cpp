@@ -28,6 +28,8 @@ private:
         board[row][col] = temp;
         return ans1 || ans2 || ans3 || ans4;
     }
+
+    
 public:
     bool exist(vector<vector<char>>& board, string word) {
         int n = board.size();
