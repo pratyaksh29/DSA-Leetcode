@@ -1,32 +1,41 @@
 class Solution {
 public:
-    void dfs(int i,int j,vector<vector<char>>& grid){
+    void bfs(int i, int j, vector<vector<char>>& grid) {
         int row = grid.size();
         int col = grid[0].size();
-        
-        if(i<0 || i>=row || j<0 || j>= col || grid[i][j]=='0'){
-            return;
+        vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        queue<pair<int, int>> q;
+        q.push({i, j});
+        grid[i][j] = '0';
+        while (!q.empty()) {
+            int nrow = q.front().first;
+            int ncol = q.front().second;
+            q.pop();
+            for (auto it : directions) {
+                nrow += it.first;
+                ncol += it.second;
+                if (nrow >= 0 && nrow < row && ncol >= 0 && ncol < col && grid[nrow][ncol] == '1') {
+                    grid[nrow][ncol] = '0';
+                    q.push({nrow, ncol});
+                }
+                nrow -= it.first;
+                ncol -= it.second;
+            }
         }
-        grid[i][j]='0';
-        dfs(i+1,j,grid);
-        dfs(i-1,j,grid);
-        dfs(i,j+1,grid);
-        dfs(i,j-1,grid);
-        
     }
 
     int numIslands(vector<vector<char>>& grid) {
         int row = grid.size();
         int col = grid[0].size();
-        if(!row || !col){
+        if (!row || !col) {
             return 0;
         }
-        int count =0;
-        for(int i =0;i<row;i++){
-            for(int j=0;j<col;j++){
-                if(grid[i][j]=='1'){
+        int count = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == '1') {
                     count++;
-                    dfs(i,j,grid);
+                    bfs(i, j, grid);
                 }
             }
         }
