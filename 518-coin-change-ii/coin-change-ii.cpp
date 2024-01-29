@@ -28,10 +28,11 @@ public:
         vector<vector<int>>dp(n,vector<int>(amount+1,0));
 
 
-        for (int target = 0; target <= amount; target++) {
-            dp[0][target] = (int) target % coins[0] == 0; 
+        for(int i =0;i<=amount;i++){
+            if(i%coins[0]==0){
+                dp[0][i]=1;
+            }
         }
-
 
         for(int i =1;i<n;i++){
             for(int t = 0;t<=amount;t++){
