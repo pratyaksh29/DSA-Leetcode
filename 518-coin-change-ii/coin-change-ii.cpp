@@ -22,29 +22,27 @@ class Solution {
 //         return dp[ind][amount] = dontpick +pick;
 
 //     }
-public:
+public: //space optimization
     int change(int amount, vector<int>& coins) {
         int n = coins.size();
-        vector<vector<int>>dp(n,vector<int>(amount+1,0));
-
+        vector<int>base(amount+1,0),curr(amount+1,0);
 
         for(int i =0;i<=amount;i++){
-            if(i%coins[0]==0){
-                dp[0][i]=1;
+            if(i%coins[0]==0){ //got stuck here
+                base[i]=1;
             }
         }
-
         for(int i =1;i<n;i++){
             for(int t = 0;t<=amount;t++){
-                int dontpick = dp[i-1][t];
+                int dontpick = base[t];
                 int pick = 0;
                 if(coins[i]<=t){
-                    pick = dp[i][t-coins[i]];
+                    pick = curr[t-coins[i]];
                 }
-                dp[i][t]=pick+dontpick;
+                curr[t]=pick+dontpick;
             }
+            base=curr;
         }
-
-        return dp[n-1][amount];
+        return base[amount];
     }
 };
