@@ -32,6 +32,7 @@ public:
             dp[0][target] = (int) target % coins[0] == 0; 
         }
 
+
         for(int i =1;i<n;i++){
             for(int t = 0;t<=amount;t++){
                 int dontpick = dp[i-1][t];
