@@ -19,10 +19,10 @@ public:
         int b = text2.size();
         vector<vector<int>>dp(a+1,vector<int>(b+1,0));
 
-        for(int i =0;i<a;i++){
+        for(int i =0;i<=a;i++){
             dp[i][0]=0;
         }
-        for(int i =0;i<b;i++){
+        for(int i =0;i<=b;i++){
             dp[0][i]=0;
         }
 
