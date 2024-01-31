@@ -11,7 +11,6 @@ private:
         if(dp[i][j]!=-1){
             return dp[i][j];
         }
-
         if(s[i]==t[j]){
             //pick the one thats matching + dont pick and go to the other letters to find if there are more matching
             return dp[i][j] = f(i-1,j-1,s,t,dp) + f(i-1,j,s,t,dp);
@@ -25,8 +24,24 @@ public:
         
         int n = s.size();
         int m =t.size();
-        vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
-        return f(n-1,m-1,s,t,dp);
+        vector<vector<double>>dp(n+1,vector<double>(m+1,0));
+        for(int i =0;i<=n;i++){ //when j<0
+            dp[i][0] = 1;
+        }
+        for(int j=1;j<=m;j++){ //got stuck here -> put j as 1 as you have already sorted j=0
+            dp[0][j]=0;
+        }
+        for(int i =1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                if(s[i-1]==t[j-1]){ //change here
+                    dp[i][j] = dp[i-1][j-1] + dp[i-1][j];
+                }
+                else{
+                    dp[i][j]= dp[i-1][j];
+                }
+
+            }
+        }
+        return (int)dp[n][m];
     }
 };
-
