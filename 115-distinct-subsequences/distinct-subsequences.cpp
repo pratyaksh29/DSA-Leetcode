@@ -24,21 +24,20 @@ public:
     int numDistinct(string s, string t) {
         int n = s.size();
         int m =t.size();
-        vector<int>base(m+1,0),curr(m+1,0);
+        vector<int>base(m+1,0);
         base[0]=1;
-        curr[0]=1;
+
 
         for(int i =1;i<=n;i++){
-            for(int j=1;j<=m;j++){
+            for(int j=m;j>=1;j--){
                 if(s[i-1]==t[j-1]){ 
-                    curr[j] = (base[j-1] + base[j]) %mod;
+                    base[j] = (base[j-1] + base[j]) %mod;
                 }
                 else{
-                    curr[j]= base[j];
+                    base[j]= base[j];
                 }
-
             }
-            base = curr;
+
         }
         return base[m];
     }
