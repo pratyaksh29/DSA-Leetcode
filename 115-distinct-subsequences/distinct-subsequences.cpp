@@ -21,29 +21,25 @@ private:
     }
 public:
     int mod=1e9+7;
-
     int numDistinct(string s, string t) {
-        
         int n = s.size();
         int m =t.size();
-        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
-        for(int i =0;i<=n;i++){ //when j<0
-            dp[i][0] = 1;
-        }
-        for(int j=1;j<=m;j++){ //got stuck here -> put j as 1 as you have already sorted j=0
-            dp[0][j]=0;
-        }
+        vector<int>base(m+1,0),curr(m+1,0);
+        base[0]=1;
+        curr[0]=1;
+
         for(int i =1;i<=n;i++){
             for(int j=1;j<=m;j++){
-                if(s[i-1]==t[j-1]){ //change here
-                    dp[i][j] = (dp[i-1][j-1] + dp[i-1][j]) %mod;
+                if(s[i-1]==t[j-1]){ 
+                    curr[j] = (base[j-1] + base[j]) %mod;
                 }
                 else{
-                    dp[i][j]= dp[i-1][j];
+                    curr[j]= base[j];
                 }
 
             }
+            base = curr;
         }
-        return dp[n][m];
+        return base[m];
     }
 };
