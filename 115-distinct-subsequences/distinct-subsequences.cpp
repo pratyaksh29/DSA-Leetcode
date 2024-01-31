@@ -33,9 +33,6 @@ public:
                 if(s[i-1]==t[j-1]){ 
                     base[j] = (base[j-1] + base[j]) %mod;
                 }
-                else{
-                    base[j]= base[j];
-                }
             }
 
         }
