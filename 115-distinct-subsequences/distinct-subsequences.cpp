@@ -26,15 +26,12 @@ public:
         int m =t.size();
         vector<int>base(m+1,0);
         base[0]=1;
-
-
         for(int i =1;i<=n;i++){
-            for(int j=m;j>=1;j--){
+            for(int j=m;j>=1;j--){ //very imp change to make it into 1D
                 if(s[i-1]==t[j-1]){ 
                     base[j] = (base[j-1] + base[j]) %mod;
                 }
             }
-
         }
         return base[m];
     }
