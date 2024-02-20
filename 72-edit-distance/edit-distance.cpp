@@ -22,11 +22,13 @@ public:
         int m = word2.size();
         vector<int>base(m+1,0);
         vector<int>curr(m+1,0);
-
+        // on any i row -> first column is i
 
         for(int j =0;j<=m;j++){
-            base[j] =j;
+            base[j] =j; //on any column ; first element is equal to index number
         }
+
+        curr[0]=0;
 
         for(int i=1;i<=n;i++){
             curr[0]=i;
