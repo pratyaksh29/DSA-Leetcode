@@ -19,24 +19,25 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n =prices.size();
-        vector<vector<int>>dp(n+1,vector<int>(2,0)); // 2 because we either buy or sell
+        vector<int>base(n+1,0),cur(n+1,0);
 
-        dp[n][0]=0;
-        dp[n][1]=0;
-        
-        for(int ind =n-1;ind>=0;ind--){
+        cur[0]=0;
+        cur[1]=0;
+
+
+        for(int ind =n-1;ind>=0;ind--){ //make sure u run the loop backwards 
             for(int buy=0;buy<=1;buy++){
                 int profit = 0;
                 if(buy){ //buy -> pick or not pick
-                    profit = max(-prices[ind] + dp[ind+1][0] , dp[ind+1][1]);
+                    profit = max(-prices[ind] + cur[0] , cur[1]);
                 }
                 else{ //sell -> pick or not pick
-                    profit = max(prices[ind] + dp[ind+1][1] , dp[ind+1][0]);
+                    profit = max(prices[ind] + cur[1] , cur[0]);
                 }
-                dp[ind][buy]=profit;
+                base[buy]=profit;
             }
+            cur = base;
         }
-
-        return dp[0][1];
+        return cur[1];
     }
 };
