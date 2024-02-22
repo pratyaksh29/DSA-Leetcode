@@ -16,25 +16,26 @@ class Solution {
 //             return dp[ind][transno] = max((prices[ind]+f(ind+1,transno+1,k,n,prices,dp)),f(ind+1,transno,k,n,prices,dp)); 
 //         }//increase transno when u buy or sell otherwise keep it the same
 //     } 
-public:
+public: //space optimization
     int maxProfit(int k, vector<int>& prices) {
         int n = prices.size();
-        vector<vector<int>>dp(n+1,vector<int>((k*2)+1,0)); //make a dp array for index and transaction number
+        vector<int>after(k*2+1,0);
+        vector<int>cur(k*2+1,0);
 
 
         for(int ind =n-1;ind>=0;ind--){ //make sure u go backwards
             for(int transno=0;transno < (k*2);transno++){
                 if(transno%2==0){
-                    dp[ind][transno] = max((-prices[ind]+dp[ind+1][transno+1]),dp[ind+1][transno]);
+                    cur[transno] = max((-prices[ind]+after[transno+1]),after[transno]);
                 }
                 //sell
                 else{
-                    dp[ind][transno] = max((prices[ind]+dp[ind+1][transno+1]),dp[ind+1][transno]);
+                    cur[transno] = max((prices[ind]+after[transno+1]),after[transno]);
                 }
-
             }
+            after = cur;
         }
-        return dp[0][0];
+        return after[0];
     }
 };
 
