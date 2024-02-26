@@ -1,39 +1,34 @@
 class Solution {
-    
 private:
     bool compare(string &a, string &b){ //a bigger, b smaller
-        if(a.size()<b.size()){
-            swap(a,b);
-        }
-        if(a.size()!=b.size()+1){
-            return false;
+        if(a.size() != b.size() + 1){
+            return false; // Length difference is more than 1
         }
         int first = 0;
         int second = 0;
-        while(first<a.size()){ //doesnt exceed the bigger string
-            if(a[first]==b[second] && second<b.size()){
+        bool foundDifference = false;
+        while(first < a.size() && second < b.size()){
+            if(a[first] == b[second]){
                 first++;
                 second++;
             }
             else{
+                if(foundDifference){
+                    return false; // Already found one difference, can't have more than 1
+                }
+                foundDifference = true;
                 first++;
             }
         }
-        if(first==a.size()&&second==b.size()){
-            return true;
-        }
-        return false;
-
-
-
+        return true;
     }
-    
 
+    
 public:
     static bool comp(string &a, string &b) {
         return a.size() < b.size();
     }
-    
+
     int longestStrChain(vector<string>& words) {
         sort(words.begin(),words.end(),comp);
         int n=words.size();
