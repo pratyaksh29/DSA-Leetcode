@@ -18,12 +18,14 @@ private:
     }
 public:
     int minCost(int n, vector<int>& cuts) {
-        int c = cuts.size();
+        int j = cuts.size();
         cuts.push_back(n);
         cuts.push_back(0);
         sort(cuts.begin(),cuts.end());
-        int k = cuts.size();
-        vector<vector<int>>dp(k+1,vector<int>(k+1,-1));
-        return f(1,c,cuts,dp);
+        
+
+        vector<vector<int>>dp(j+1,vector<int>(j+1,-1));
+
+        return f(1,j,cuts,dp);
     }
 };
