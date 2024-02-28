@@ -26,10 +26,10 @@ public:
         sort(cuts.begin(),cuts.end());
         
         vector<vector<int>>dp(c+2,vector<int>(c+2,0)); //make the dp array with c because thats the total number of cuts
-
+        //c+2 because we add 2 more elements
         
         for(int i=c;i>=1;i--){
-            for (int j = 1; j <= c; j++) {
+            for  (int j=1;j<=c;j++) {  //since
                 if (i > j) continue;
                 int mini = INT_MAX;
                 for (int ind = i; ind <= j; ind++) {
