@@ -4,7 +4,7 @@ public:
         int n =nums.size();
         int k;
         for(k=n-2;k>=0;k--){
-            if(nums[k]<nums[k+1]){
+            if(nums[k]<nums[k+1]){ 
                 break;
             }
         }
@@ -22,3 +22,4 @@ public:
         }
     }
 };
+
