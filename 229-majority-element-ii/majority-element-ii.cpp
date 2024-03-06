@@ -2,24 +2,21 @@ class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
         int n = nums.size();
-        vector<int>ls;
-        for(int i =0;i<n;i++){
-            if(ls.size()==0||ls[0]!=nums[i]){ //empty or not part of the answer
-                int count = 0;
-                for(int j = 0;j<n;j++){
-                    if(nums[j]==nums[i]){
-                        count++;
-                    }
-                }
-                if(count>n/3){
-                    ls.push_back(nums[i]);
-                }
+        unordered_map<int,int>mp; // num, count
+        vector<int>ans;
+        int used;
+        for(int i=0;i<n;i++){
+            mp[nums[i]]++;
+            if(mp[nums[i]]>n/3 && used != nums[i]){
+                ans.push_back(nums[i]);
+                used = nums[i];
             }
-            if(ls.size()==2){
+            if(ans.size()==2){
                 break;
             }
-        }   
-        return ls;
-
+        }
+        return ans;
     }
 };
+
+
