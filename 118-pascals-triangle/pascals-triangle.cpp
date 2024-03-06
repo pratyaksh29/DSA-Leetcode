@@ -1,11 +1,11 @@
 class Solution {
-    vector<int>gentemp(int n){
+    vector<int>gentemp(int row){
         vector<int>temp;
         long long num = 1;
         temp.push_back(num);
-        for(int i =1 ;i<n;i++){ //i = column ; n = row
-            num = num * (n-i);
-            num = num / i;
+        for(int col =1 ;col<row;col++){ 
+            num = num * (row-col);
+            num = num / col;
             temp.push_back(num);
         }
         return temp;
