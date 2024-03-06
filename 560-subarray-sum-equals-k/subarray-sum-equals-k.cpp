@@ -1,20 +1,23 @@
 class Solution {
 public:
-    int subarraySum(vector<int>& nums, int k) {
+    int subarraySum(vector<int>& nums, int k) { //naive brute force approach
         int n = nums.size();
         if(n==0){
             return 0;
         }
-        int ans = 0;
+        int preSum = 0,cnt=0;
+        unordered_map<int,int>mp; //presum,count
+        mp[0]=1; //sum-k,count
+
         for(int i =0;i<n;i++){
-            int c = 0;
-            for(int j=i;j<n;j++){
-                c+=nums[j];
-                if(c==k){
-                    ans++;
-                }
-            }   
+            preSum += nums[i];
+            if(mp.find(preSum-k)!=mp.end()){
+                cnt+=mp[preSum-k];
+            }
+            mp[preSum]++;
         }
-        return ans;
+        return cnt;
     }
 };
+
+   
