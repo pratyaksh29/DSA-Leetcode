@@ -17,7 +17,6 @@ public:
                         st.insert(temp);
                     }
                     hashset.insert(nums[k]);
-
                 }
             }
         }
