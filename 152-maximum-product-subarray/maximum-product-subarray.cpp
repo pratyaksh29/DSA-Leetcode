@@ -5,18 +5,21 @@ public:
         if(n==0){
             return 0;
         }
-        if(n==1){
-            return nums[0];
-        }
+        int prefix =1;
+        int suffix = 1;
         int maxi = INT_MIN;
         for(int i =0;i<n;i++){
-            int prod = 1;
-            for(int j =i;j<n;j++){
-                prod*=nums[j];
-                maxi = max(maxi , prod);
+            if(prefix == 0){ //if either of prefix or suffix becomes 0 -> make it 1
+                prefix = 1;
             }
+            if(suffix == 0){
+                suffix = 1;
+            }
+            prefix *= nums[i]; //calculate the prod from the back and from the front and find max
+            suffix *= nums[n-i-1];
+            maxi = max (maxi,max(prefix,suffix));
         }
         return maxi;
-
     }
 };
+
