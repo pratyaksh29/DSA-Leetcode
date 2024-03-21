@@ -9,25 +9,22 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
 class Solution {
-  public:
-    // Return the Kth smallest element in the given BST
-    void inorder(TreeNode* root,int K, int &count,int &ans){
-        if(root==0) return ;
-        inorder(root->left,K,count,ans);
-        count++;
-        if(count==K) {
-            ans=root->val;
-            return ;
-        } 
-        inorder(root->right,K,count,ans);
+public:
+    void inorder(TreeNode* root,vector<int>&v){
+        if(root == NULL){
+            return;
+        }
+        inorder(root->left,v);
+        v.push_back(root->val);
+        inorder(root->right,v);
     }
-    int kthSmallest(TreeNode *root, int K) {
-       int count=0;
-       int ans;
-       inorder(root,K,count,ans);
-       if(count<K) return -1;
-       return ans;
+    int kthSmallest(TreeNode* root, int k) {    
+        if(root == NULL){
+            return NULL;
+        }
+        vector<int>v;
+        inorder(root,v);
+        return v[k-1];
     }
 };
