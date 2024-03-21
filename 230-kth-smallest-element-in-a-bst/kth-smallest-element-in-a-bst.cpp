@@ -9,22 +9,29 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution { //better approach
 public:
-    void inorder(TreeNode* root,vector<int>&v){
+    void inorder(TreeNode* root,int &k,int &c,int &ans){
         if(root == NULL){
             return;
         }
-        inorder(root->left,v);
-        v.push_back(root->val);
-        inorder(root->right,v);
+        inorder(root->left,k,c,ans);
+        c++;
+        if(c==k){
+            ans=root->val;
+            return;
+        }
+        inorder(root->right,k,c,ans);
     }
     int kthSmallest(TreeNode* root, int k) {    
         if(root == NULL){
             return NULL;
         }
-        vector<int>v;
-        inorder(root,v);
-        return v[k-1];
+        int c = 0;
+        int ans;
+        inorder(root,k,c,ans);
+
+        return ans;
     }
 };
+
