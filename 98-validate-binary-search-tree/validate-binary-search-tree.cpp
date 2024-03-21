@@ -1,18 +1,14 @@
 class Solution {
 public:
-    bool isValidBST(TreeNode* root) {
-        return fun(root, NULL, NULL);
-    }
-    
-    bool fun(TreeNode* root, TreeNode* max, TreeNode* min){
-        if(root==NULL){
+    bool bst(TreeNode* root, long long mini, long long maxi)
+    {
+        if(root == NULL)
             return true;
-        }
-		// Using the same above logic
-		//Just check if max or min-node is NULL, then follow it as true
-        if((min==NULL || root->val > min->val) && (max==NULL || root->val < max->val)){
-            return fun(root->left, root, min) && fun(root->right, max, root);
-        }
-        return false;
+        if(root->val >= maxi || root -> val <= mini)
+            return false;
+        return (bst(root->left, mini, root->val) && bst(root->right, root->val, maxi));
+    }
+    bool isValidBST(TreeNode* root) {
+        return bst(root, (long long)LONG_MIN, (long long)LONG_MAX);
     }
 };
