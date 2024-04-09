@@ -11,36 +11,21 @@
  */
 class Solution {
 public:
-    vector<int>ans;
-    void dfs(TreeNode* root){
-        if(root==NULL){
-            return;
-        }
-        dfs(root->left);
-        ans.push_back(root->val);
-        dfs(root->right);
-    }
+    unordered_map<int,int>mpp;
     bool findTarget(TreeNode* root, int k) {
-        dfs(root);
-        int n = ans.size();
-        if(n==1){
+        
+        if(!root){
             return false;
         }
-        int left = 0;
-        int right = n-1;
-        while(left<right){
-            int sum = ans[left] + ans[right];
-            if(sum==k){
-                return true;
-            }
-            else if (sum<k){
-                left++;
-            }
-            else{
-                right--;
-            }
+        int curr = root->val;
+        int moreneeded = k-curr;
+
+        if(mpp.find(moreneeded)!=mpp.end()){
+            return true;
         }
-        return false;
+        mpp[curr]++;
         
+        return findTarget(root->left,k) ||  findTarget(root->right,k);
+
     }
 };
