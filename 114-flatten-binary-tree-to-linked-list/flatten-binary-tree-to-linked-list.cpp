@@ -11,26 +11,23 @@
  */
 class Solution {
 public:
+    
     void flatten(TreeNode* root) {
-        if(root==NULL){
-            return;
-        }
-        stack<TreeNode*>st;
-        st.push(root);
-        TreeNode* prev = NULL;
-        while(!st.empty()){
-            TreeNode* cur = st.top();
-            st.pop();
-            if(cur->right){
-                st.push(cur->right);
-            }
+        if (!root) return;
+        TreeNode* cur = root;
+        while(cur!=NULL){
             if(cur->left){
-                st.push(cur->left);
+                TreeNode* prev = cur->left;
+                while(prev->right){
+                    prev = prev->right;
+                }
+                prev->right = cur->right;
+                cur->right = cur->left;
+                cur->left = NULL;
             }
-            if(!st.empty()){ //imp step; dont forget
-                cur->right = st.top();
-            }
-            cur->left = NULL;
+            cur=cur->right;
+            
+
         }
     }
 };
