@@ -43,12 +43,7 @@ public:
         for(auto it : connections){
             int u = it[0];
             int v = it[1];
-            if(ds.findUPar(u)==ds.findUPar(v)){
-                extraedges++;
-            }
-            else{
-                ds.unionBySize(u,v);
-            }
+            ds.unionBySize(u,v);
         }
         int c = 0;
         for(int i =0;i<n;i++){
