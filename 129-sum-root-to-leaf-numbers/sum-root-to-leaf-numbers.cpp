@@ -15,13 +15,14 @@ public:
         if(!root){
             return 0;
         }
-        cur = cur*10 + root->val;
+        cur = cur*10 + root->val; //keep moving the number by tens place
         if(!root->left && !root->right){
-            return cur;
+            return cur; //if no next node; return the current sum
         }
-        return dfs(root->left,cur) + dfs(root->right,cur);
+        return dfs(root->left,cur) + dfs(root->right,cur); //add all the numbers
     }
     int sumNumbers(TreeNode* root) {
-        return dfs(root,0);
+        return dfs(root,0); //start with 0
     }
 };
+
