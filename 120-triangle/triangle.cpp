@@ -1,23 +1,25 @@
 class Solution {
 public:
-    int f(int i, int j, vector<vector<int>>& triangle, vector<vector<int>>& dp) {
-        int row = triangle.size();
-        int col = triangle[0].size();
-        if(i==row-1){
-            return triangle[i][j];
-        }
-        if(dp[i][j]!=-1){
-            return dp[i][j];
-        }
-        int down = triangle[i][j] +f(i+1,j,triangle,dp);
-        int right = triangle[i][j] +f(i+1,j+1,triangle,dp);
-        return dp[i][j] = min(down, right); 
-    }
 
     int minimumTotal(vector<vector<int>>& triangle) {
         int row = triangle.size();
         int col = triangle[0].size();
-        vector<vector<int>> dp(row, vector<int>(row, -1));
-        return f(0,0,triangle,dp);
+        vector<int>prev(row, 0);
+        vector<int>curr(row, 0);
+
+        for(int j=0;j<row;j++){
+            prev[j]=triangle[row-1][j];
+        }
+        for(int i = row-2;i>=0;i--){
+            for(int j=i;j>=0;j--){
+
+                int down = triangle[i][j] +prev[j];
+                int right = triangle[i][j] +prev[j+1];
+                curr[j] = min(down, right); 
+
+            }
+            prev=curr;
+        }
+        return prev[0];
     }
 };
