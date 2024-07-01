@@ -16,17 +16,27 @@ public:
     }
     
     bool remove(int val) {
-        if(mp.find(val)==mp.end()){
+        if (mp.find(val) == mp.end()) {
             return false;
         }
-        int last = nums.back();
-        mp[last]=mp[val];//index
-        nums[mp[last]] = last; //put last value in updates index
+        int index = mp[val]; // get the index of the element to remove
+        int last = nums.back(); // get the last element
+        
+        // Swap the element to remove with the last element
+        swap(nums[index], nums[nums.size() - 1]);
+        
+        // Update the index of the last element in the map
+        mp[last] = index;
+        
+        // Remove the last element from the vector
         nums.pop_back();
+        
+        // Erase the element from the map
         mp.erase(val);
+        
         return true;
-
     }
+
     
     int getRandom() {
         return nums[rand() % nums.size()];
