@@ -1,28 +1,28 @@
 class Solution {
 public:
-    int f(int n, vector<int>& cost, vector<int>& dp) {
-        if (n == 0 || n==1) {
-            return cost[n];
+    int f (int ind , vector<int>& cost,vector<int>& dp){
+        int n = cost.size();
+        if(ind>=n){
+            return 0;
         }
-        if(dp[n]){
-            return dp[n];
+        if(dp[ind]!=-1){
+            return dp[ind];
         }
-        int left = f(n - 1, cost,dp) + cost[n];
-        int right = f(n - 2, cost,dp) + cost[n];
+        int step1 = INT_MAX;
+        int step2 = INT_MAX;
+        if(ind+1<=n){
+            step1 = cost[ind] + f(ind+1,cost,dp);
+        }
+        if(ind+2<=n){
+            step2 = cost[ind] + f(ind+2,cost,dp);
+        }
+        return dp[ind] = min(step1,step2);
+        
 
-        return dp[n] = min(left, right);
     }
-    
     int minCostClimbingStairs(vector<int>& cost) {
         int n = cost.size();
-        vector<int>dp(n+1,0);
-        dp[0]=cost[0];
-        dp[1]=cost[1];
-        for(int i =2;i<n;i++){
-            int left = cost[i] + dp[i-1];
-            int right = cost[i] + dp[i-2];
-            dp[i] = min(left,right);
-        }
-        return min(dp[n-2],dp[n-1]);
+        vector<int>dp(n+1,-1);
+        return min(f(0,cost,dp),f(1,cost,dp)); 
     }
 };
