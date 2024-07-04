@@ -24,6 +24,7 @@ struct Node {
 };
 
 class WordDictionary {
+    
 private:
     Node* root;
 
