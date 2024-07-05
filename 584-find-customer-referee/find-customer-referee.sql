@@ -2,5 +2,4 @@
 
 SELECT name
 FROM Customer
-WHERE referee_id <> 2
-OR referee_id is NULL;
+WHERE IFNULL(referee_id,-1)<>2;
