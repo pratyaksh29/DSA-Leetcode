@@ -1,33 +1,35 @@
 class Solution {
 public:
-    int numIslands(vector<vector<char>>& grid) {
-        int row = grid.size();
-        int col = grid[0].size();
-        if(!row || !col){
-            return 0;
-        }
-        vector<vector<int>>vis(row,vector<int>(col,0));
-        int c = 0;
+    void bfs(int row,int col,vector<vector<char>>& grid,vector<vector<int>>& vis){
+        vis[row][col]=1;
+        queue<pair<int,int>>q;
+        q.push({row,col});
         vector<int>directions = {-1,0,1,0,-1};
-        for(int i =0;i<row;i++){
-            for(int j=0;j<col;j++){
+        while(!q.empty()){
+            int i = q.front().first;
+            int j = q.front().second;
+            q.pop();
+            for(int k =0;k<4;k++){
+                int nrow = i + directions[k];
+                int ncol = j + directions[k+1];
+                if(nrow>=0 && ncol >=0 && nrow<grid.size() && ncol <grid[0].size()&& grid[nrow][ncol]=='1' && vis[nrow][ncol]==0){
+                    vis[nrow][ncol]=1;
+                    q.push({nrow,ncol});
+                }
+            }
+        }
+
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        int c =0;
+        for(int i =0;i<n;i++){
+            for(int j=0;j<m;j++){
                 if(grid[i][j]=='1' && vis[i][j]==0){
                     c++;
-                    vis[i][j]=1;
-                    queue<pair<int,int>>q;
-                    q.push({i,j});
-                    while(!q.empty()){
-                        auto it = q.front();
-                        q.pop();
-                        for(int k =0;k<4;k++){
-                            int nrow = it.first + directions[k];
-                            int ncol = it.second + directions[k+1];
-                            if(nrow>=0 && nrow <row && ncol >=0 && ncol<col && grid[nrow][ncol]=='1'&& vis[nrow][ncol]==0){
-                                q.push({nrow,ncol});
-                                vis[nrow][ncol]=1;
-                            }
-                        }
-                    }
+                    bfs(i,j,grid,vis);
                 }
             }
         }
