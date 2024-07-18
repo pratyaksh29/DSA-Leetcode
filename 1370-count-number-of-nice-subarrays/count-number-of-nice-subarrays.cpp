@@ -1,28 +1,19 @@
 class Solution {
 public:
-    int solve(vector<int>& nums, int k) {
+    int numberOfSubarrays(vector<int>& nums, int k) {
         int n = nums.size();
-        int c=0;
-        int l =0;
-        int r=0;
-        int sum=0;
-        if(k<0){
-            return 0;
-        }
-        while(r<n){
-            sum+=nums[r]%2;
-            while(sum>k){
-                sum = sum - nums[l]%2;
-                l++;
+        unordered_map<int,int>mp;
+        int presum = 0;
+        int c =0;
+        mp[0]=1;
+        for(int i =0;i<n;i++){
+            presum += nums[i]%2;
+            if(mp.find(presum-k)!=mp.end()){
+                c+=mp[presum-k];
             }
-            c+= r-l+1;
-            r++;
+            mp[presum]++;
         }
         return c;
-    }
-
-    int numberOfSubarrays(vector<int>& nums, int k){
-        int n = nums.size();
-        return solve(nums,k) - solve(nums,k-1);
+        
     }
 };
