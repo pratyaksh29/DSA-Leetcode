@@ -10,7 +10,7 @@ public:
         while(r<n){
             mp[s[r]]++;
             maxfreq = max(maxfreq,mp[s[r]]);
-            while(r-l+1 - maxfreq>k){
+            if(r-l+1 - maxfreq>k){
                 mp[s[l]]--;
                 l++;
             }
