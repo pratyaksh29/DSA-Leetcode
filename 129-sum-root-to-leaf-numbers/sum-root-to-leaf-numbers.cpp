@@ -11,18 +11,24 @@
  */
 class Solution {
 public:
-    int dfs(TreeNode* root, int cur){
-        if(!root){
-            return 0;
-        }
-        cur = cur*10 + root->val; //keep moving the number by tens place
-        if(!root->left && !root->right){
-            return cur; //if no next node; return the current sum
-        }
-        return dfs(root->left,cur) + dfs(root->right,cur); //add all the numbers
-    }
     int sumNumbers(TreeNode* root) {
-        return dfs(root,0); //start with 0
+        int sum =0;
+        stack<pair<TreeNode*,int>>st;
+        st.push({root,0});
+        while(!st.empty()){
+            auto [node,cur] = st.top();
+            st.pop();
+            cur=cur*10 + node->val;
+            if(!node->right && !node->left){
+                sum+=cur;
+            }
+            if(node->right){
+                st.push({node->right,cur});
+            }
+            if(node->left){
+                st.push({node->left,cur});
+            }
+        }
+        return sum;
     }
 };
-
