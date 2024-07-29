@@ -10,15 +10,36 @@
  */
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) {
-        ListNode* prevnode = NULL;
-        while(head){
-            ListNode* nextnode = head->next;
-            head->next = prevnode;
-            prevnode = head;
-            head = nextnode;
+    bool isPalindrome(ListNode* head) {
+        // Edge case: if the list is empty or has only one node, it is a palindrome
+        if (!head || !head->next) return true;
+
+        // Step 1: Reverse the entire list
+        ListNode* reversedHead = reverseList(head);
+
+        // Step 2: Compare the original list with the reversed list
+        ListNode* original = head;
+        ListNode* reversed = reversedHead;
+        while (original && reversed) {
+            if (original->val != reversed->val) {
+                return false;
+            }
+            original = original->next;
+            reversed = reversed->next;
         }
-        return prevnode;
         
+        return true;
+    }
+    
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prev = nullptr;
+        ListNode* current = head;
+        while (current) {
+            ListNode* next = current->next;
+            current->next = prev;
+            prev = current;
+            current = next;
+        }
+        return prev;
     }
 };
