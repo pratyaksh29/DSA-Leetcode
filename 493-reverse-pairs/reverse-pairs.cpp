@@ -1,74 +1,63 @@
 class Solution {
-
-void merge(vector<int> &arr, int low, int mid, int high) { //no changes
-    vector<int> temp; // temporary array
-    int left = low;      // starting index of left half of arr
-    int right = mid + 1;   // starting index of right half of arr
-
-
-    //storing elements in the temporary array in a sorted manner//
-
-    while (left <= mid && right <= high) {
-        if (arr[left] <= arr[right]) {
-            temp.push_back(arr[left]);
-            left++;
+public:
+    void merge(vector<int>&nums, int low, int mid, int high){
+        int i = low;
+        int j = mid+1;
+        vector<int>temp;
+        while(i<=mid && j <= high){
+            if(nums[i]<=nums[j]){
+                temp.push_back(nums[i]);
+                i++;
+            }
+            else{
+                temp.push_back(nums[j]);
+                j++;
+            } 
         }
-        else {
-            temp.push_back(arr[right]);
-            right++;
+        while(i<=mid){
+            temp.push_back(nums[i]);
+            i++;
         }
-    }
-
-    // if elements on the left half are still left //
-
-    while (left <= mid) {
-        temp.push_back(arr[left]);
-        left++;
-    }
-
-    //  if elements on the right half are still left //
-    while (right <= high) {
-        temp.push_back(arr[right]);
-        right++;
-    }
-
-    // transfering all elements from temporary to arr //
-    for (int i = low; i <= high; i++) {
-        arr[i] = temp[i - low];
-    }
-
-}
-
-int countPairs(vector<int> &arr, int low, int mid, int high){
-    int c= 0;
-    int j=mid+1;
-    for(int i =low;i<=mid;i++){
-        while(j<=high && arr[i]> 2LL * arr[j]){
+        while(j<=high){
+            temp.push_back(nums[j]);
             j++;
         }
-        c+=(j-(mid+1)); //we dont do another +1 because j gets incremented in the end ; 
-    }                   //so it points to the number that is not to be added in the count
-    return c;
-}
+
+        for(int k =0;k<temp.size();k++){
+            nums[k + low] = temp[k];
+        }
+    }
+
+    int countPairs(vector<int> &nums, int low, int mid, int high){
+        int c= 0;
+        int j=mid+1;
+        for(int i =low;i<=mid;i++){
+            while(j<=high && nums[i]> 2LL * nums[j]){
+                j++;
+            }
+            c+=(j-(mid+1)); //we dont do another +1 because j gets incremented in the end ; 
+        }                   //so it points to the number that is not to be added in the count
+        return c;
+    }
+
+    int mergesort(vector<int>&nums,int low,int high){
+        int c =0;
+        if(low>=high){
+            return c;
+        }
+        int mid = (high+low)/2;
+        c+=mergesort(nums,low,mid);
+        c+=mergesort(nums,mid+1,high);
+        c+=countPairs(nums,low,mid,high);
+        merge(nums,low,mid,high);
+        return c;
+
+    }
 
 
-int mergeSort(vector<int> &arr, int low, int high) {
-    int c =0;
-    if (low >= high) return c;
-    int mid = (low + high) / 2 ;
-    c += mergeSort(arr, low, mid);  // left half
-    c+= mergeSort(arr, mid + 1, high); // right half
-    c+= countPairs(arr,low,mid,high); //add the count pair function here and add all to the total count
-    merge(arr, low, mid, high);  // merging sorted halves
-    return c;
-}
 
 
-
-public:
     int reversePairs(vector<int>& nums) {
-        return mergeSort(nums, 0, nums.size() - 1);
+        return mergesort(nums,0,nums.size()-1);
     }
 };
-
-
