@@ -1,28 +1,32 @@
 class Solution {
 public:
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
-        vector<vector<int>>graph(n);
-        for(auto edge : edges){
-            graph[edge[0]].push_back(edge[1]);
-            graph[edge[1]].push_back(edge[0]);
+        vector<int>graphs[n];
+        for(auto it : edges){
+            graphs[it[0]].push_back(it[1]);
+            graphs[it[1]].push_back(it[0]);
         }
-        stack<int>st;
-        st.push(source);
-        vector<int>visited(n,0);
-        visited[source]=1;
-        while(!st.empty()){
-            int node = st.top();
-            st.pop();
-            if(node == destination){
+
+        vector<int>vis(n,0);
+        vis[source]=1;
+        queue<int>q;
+        q.push(source);
+        while(!q.empty()){
+            int node = q.front();
+
+            q.pop();
+            if(node==destination){
                 return true;
             }
-            for(auto adj : graph[node]){
-                if(!visited[adj])
-                    st.push(adj);
-                    visited[adj]=1;
+            for(auto it : graphs[node]){
+                if(!vis[it]){
+                    q.push(it);
+                    vis[it]=1;
+                }
             }
         }
         return false;
+        
 
     }
 };
