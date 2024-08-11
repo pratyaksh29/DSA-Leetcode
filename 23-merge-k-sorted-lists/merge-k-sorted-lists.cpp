@@ -10,33 +10,30 @@
  */
 class Solution {
 public:
-    ListNode* makelist(vector<int>arr){
-        if(arr.empty()){
-            return NULL;
-        }
-        int n = arr.size();
-        ListNode* node = new ListNode(arr[0]);
-        ListNode* temp = node;
-        for(int i =1;i<n;i++){
-            temp->next = new ListNode(arr[i]);
-            temp = temp->next;
-        }
-        return node;
-        
-    }
+
     ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.empty()) return NULL;
+        priority_queue<pair<int,ListNode*>,vector<pair<int,ListNode*>>,greater<pair<int,ListNode*>>>pq;
         int n = lists.size();
-        vector<int>arr;
-        for(int i =0;i<n;i++){
-            ListNode* temp = lists[i];
-            while(temp!=NULL){
-                arr.push_back(temp->val);
-                temp=temp->next;
+        for(int i =0; i<n;i++){
+            if(lists[i]){
+                pq.push({lists[i]->val,lists[i]});
             }
+            
         }
-        sort(arr.begin(),arr.end());
-        ListNode* ans = makelist(arr);
-        return ans;
+
+        ListNode* dummy = new ListNode(0);
+        ListNode* temp = dummy;
+        while(!pq.empty()){
+            auto it = pq.top();
+            temp->next = it.second;
+            pq.pop();
+            if(it.second->next){
+                pq.push({it.second->next->val,it.second->next});
+            }
+            temp=temp->next;
+        }
+        return dummy->next;
         
     }
 };
